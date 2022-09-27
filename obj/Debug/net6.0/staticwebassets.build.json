@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "gAEXoIpyqghgnsC57/3x6gfukSYZ+P99FkowoSMtXxQ=",
+  "Source": "DialInAPI",
+  "BasePath": "_content/DialInAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
