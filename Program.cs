@@ -1,12 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using DialInApi.Data;
 using DialInApi.Models;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<DialInDbContext>(
-        opt => opt.UseInMemoryDatabase(builder.Configuration.GetConnectionString("InMemoryDbConnection"))
-    );
+// InMemory
+builder.Services.AddDbContext<DialInDbContext>(opt => 
+    opt.UseInMemoryDatabase(builder.Configuration.GetConnectionString("InMemoryDbConnection")));
+
+// REDIS
+builder.Services.AddSingleton<IConnectionMultiplexer>(opt => 
+    ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection")));
+    
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
