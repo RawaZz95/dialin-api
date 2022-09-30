@@ -6,7 +6,7 @@ namespace DialInApi.Data
     {
         Task SaveChangesAsync();
         Task<DialIn?> GetDialInByIdAsync(string dialInId);
-        Task<IEnumerable<DialIn>> GetAllDialInsAsync();
+        Task<IEnumerable<DialIn?>?> GetAllDialInsAsync();
         Task CreateDialInAsync(DialIn dialIn);
         // Update?
         void DeleteDialInAsync(DialIn dialIn);

@@ -32,7 +32,7 @@ namespace DialInApi.Data
             _context.DialIns.Remove(dialIn);
         }
 
-        public async Task<IEnumerable<DialIn>> GetAllDialInsAsync()
+        public async Task<IEnumerable<DialIn?>?> GetAllDialInsAsync()
         {
             return await _context.DialIns.ToListAsync();
         }
