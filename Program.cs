@@ -25,6 +25,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler(exceptionHandlerApp =>
+{
+    exceptionHandlerApp.Run(async context => 
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        System.Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine("---> Exception thrown!");
+        System.Console.ForegroundColor = ConsoleColor.Gray;
+    });
+});
+
 app.UseHttpsRedirection();
 
 // GET Multiple
@@ -51,14 +62,21 @@ app.MapGet("api/v1/dialins/{dialInId}", async (IDialInRepository dialInRepositor
 // POST Create
 app.MapPost("api/v1/dialins", async (IDialInRepository dialInRepository, DialIn dialIn) =>
 {
-    // dialIn.Id = 0;
-    // dialIn.DialInId = Guid.NewGuid().ToString();
-    // dialIn.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
-    // await dialInRepository.CreateDialInAsync(dialIn);
-    // await dialInRepository.SaveChangesAsync();
+    try {
+        dialIn.Id = 0;
+        dialIn.DialInId = Guid.NewGuid().ToString();
+        dialIn.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
+        await dialInRepository.CreateDialInAsync(dialIn);
+        await dialInRepository.SaveChangesAsync();
 
-    // return Results.Created($"/api/v1/dialins/{dialIn.DialInId}", dialIn);
-    return Results.Problem();
+        return Results.Created($"/api/v1/dialins/{dialIn.DialInId}", dialIn);
+    }
+    catch (Exception) {
+        System.Console.ForegroundColor = ConsoleColor.Red;
+        System.Console.WriteLine("---> Exception thrown while trying to read the request body in dialins create.");
+        System.Console.ForegroundColor = ConsoleColor.Gray;
+        return Results.BadRequest();
+    }
 });
 
 // PUT Update
