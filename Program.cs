@@ -51,6 +51,7 @@ app.MapGet("api/v1/dialins/{dialInId}", async (IDialInRepository dialInRepositor
 // POST Create
 app.MapPost("api/v1/dialins", async (IDialInRepository dialInRepository, DialIn dialIn) =>
 {
+    dialIn.Id = 0;
     dialIn.DialInId = Guid.NewGuid().ToString();
     dialIn.TimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
     await dialInRepository.CreateDialInAsync(dialIn);
